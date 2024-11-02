@@ -1,0 +1,12 @@
+
+services:
+  rvc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8026:8000
+    environment:
+      - PY_RVC_PORT=8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
