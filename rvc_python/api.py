@@ -10,6 +10,7 @@ import base64
 import shutil
 import zipfile
 import os
+import gc
 
 class SetDeviceRequest(BaseModel):
     device: str
@@ -59,6 +60,11 @@ def setup_routes(app: FastAPI):
         finally:
             os.unlink(input_path)
             os.unlink(output_path)
+
+            del audio_data
+            del tmp_input
+            del tmp_output
+            gc.collect()
 
     @app.post("/convert_file")
     async def rvc_convert_file(file: UploadFile = File(...)):
